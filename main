@@ -1,0 +1,150 @@
+   #include <iostream>
+using namespace std;
+
+const int M = 50, N = 50; // максимальні розміри матриці
+
+// ===== Прототипи Функції =====
+
+// Введення та виведення матриці
+void get_matr(int in_matr[M][N], int & in_m, int & in_n);
+void show_matr(const int out_matr[M][N], const int m, const int n);
+
+// Завдання 1: підрахунок суми та добутку K-го рядка
+int row_sum(const int matr[M][N], const int m, const int n, int k);
+int row_prod(const int matr[M][N], const int m, const int n, int k);
+
+// Завдання 2: дзеркальне відображення матриці
+void change_matr(int matr[M][N], int & m, int & n);
+
+// Функції виконання завдань
+void task1(); // Завдання 1 (Matrix17)
+void task2(); // Завдання 2 (Matrix60)
+
+// ===== Головна функція =====
+int main() {
+    int num;
+    do {
+        cout << "-------------------------" << endl;
+        cout << "Номер завдання (1-2, 0-вихід) -> ";
+        cin >> num;
+        switch(num) {
+            case 0:
+                cout << "Вихід..." << endl;
+                break;
+            case 1:
+                task1();
+                break;
+            case 2:
+                task2();
+                break;
+            default:
+                cout << "Неправильний номер завдання!" << endl;
+        }
+    } while(num != 0); // цикл продовжується до введення 0
+}
+
+// ===== Функція введення матриці =====
+void get_matr(int in_matr[M][N], int & in_m, int & in_n) {
+    // Перевірка введення коректних розмірів матриці
+    do {
+        cout << "Введіть кількість рядків (2-50): ";
+        cin >> in_m;
+        cout << "Введіть кількість стовпців (2-50): ";
+        cin >> in_n;
+    } while (in_m < 2 || in_m > M || in_n < 2 || in_n > N);
+
+    // Введення елементів матриці по рядках
+    cout << "Введіть елементи:" << endl;
+    for (int i = 0; i < in_m; i++)
+        for (int j = 0; j < in_n; j++)
+            cin >> in_matr[i][j];
+}
+
+// ===== Функція виведення матриці =====
+void show_matr(const int out_matr[M][N], const int m, const int n) {
+    cout << endl << "Матриця:" << endl;
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++)
+            cout << out_matr[i][j] << "\t";
+        cout << endl;
+    }
+}
+
+// ===== Завдання 1 (Matrix17) =====
+
+// Функція підрахунку суми елементів K-го рядка
+int row_sum(const int matr[M][N], const int m, const int n, int k) {
+    int s = 0;
+    for (int j = 0; j < n; j++) {
+        s += matr[k][j];
+    }
+    return s;
+}
+
+// Функція підрахунку добутку елементів K-го рядка
+int row_prod(const int matr[M][N], const int m, const int n, int k) {
+    int p = 1;
+    for (int j = 0; j < n; j++) {
+        p *= matr[k][j];
+    }
+    return p;
+}
+
+// Функція виконання завдання 1
+void task1() {
+    int matr[M][N];
+    int row, col;
+    int k;
+
+    // Введення матриці
+    get_matr(matr, row, col);
+
+    // Виведення матриці
+    show_matr(matr, row, col);
+
+    // Введення номера рядка K
+    do {
+        cout << "Введіть K (1 <= K <= " << row << "): ";
+        cin >> k;
+    } while (k < 1 || k > row);
+
+    k = k - 1; // перехід до індексації з 0
+
+    // Виведення результатів
+    cout << "Сума елементів рядка K: " 
+         << row_sum(matr, row, col, k) << endl;
+    cout << "Добуток елементів рядка K: " 
+         << row_prod(matr, row, col, k) << endl;
+}
+
+// ===== Завдання 2 (Matrix60) =====
+
+// Функція дзеркального відображення матриці по вертикалі
+void change_matr(int matr[M][N], int & m, int & n) {
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n / 2; j++) {
+            int temp = matr[i][j];
+            matr[i][j] = matr[i][n - 1 - j];
+            matr[i][n - 1 - j] = temp;
+        }
+    }
+}
+
+// Функція виконання завдання 2
+void task2() {
+    int matr[M][N];
+    int row, col;
+
+    // Введення матриці
+    get_matr(matr, row, col);
+
+    // Виведення початкової матриці
+    show_matr(matr, row, col);
+
+    // Дзеркальне відображення
+    change_matr(matr, row, col);
+
+    // Виведення матриці після перетворення
+    cout << endl << "Матриця після дзеркального відображення по вертикалі:" << endl;
+    show_matr(matr, row, col);
+}
